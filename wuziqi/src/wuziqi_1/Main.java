@@ -12,13 +12,13 @@ import javax.swing.JPanel;
 
 public class Main extends JFrame {
 	private JPanel p;
-	private int Pointx, Pointy;// »ñµÃÆå×ÓµÄÂäµãÎ»ÖÃ
-	private int count = 0;// »ñµÃµã»÷´ÎÊı£¬ÓÃÀ´ÊµÏÖÆå×Ó×ª»»
-	private ArrayList<Integer> listblack = new ArrayList<>();//´æ·ÅºÚÆåÂäµãÎ»ÖÃ
-	private ArrayList<Integer> listblue = new ArrayList<>();//´æ·ÅÀ¶ÆåÂäµãÎ»ÖÃ
+	private int Pointx, Pointy;// è·å¾—æ£‹å­çš„è½ç‚¹ä½ç½®
+	private int count = 0;// è·å¾—ç‚¹å‡»æ¬¡æ•°ï¼Œç”¨æ¥å®ç°æ£‹å­è½¬æ¢
+	private ArrayList<Integer> listblack = new ArrayList<>();//å­˜æ”¾é»‘æ£‹è½ç‚¹ä½ç½®
+	private ArrayList<Integer> listblue = new ArrayList<>();//å­˜æ”¾è“æ£‹è½ç‚¹ä½ç½®
 
 	public Main() {
-		super("Îå×ÓÆå");
+		super("äº”å­æ£‹");
 		p = new JPanel();
 		p.addMouseListener(new Monitor());
 		this.add(p);
@@ -30,16 +30,15 @@ public class Main extends JFrame {
 	class Monitor extends MouseAdapter {
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			count++;
-			Pointx = Location(e.getX() + 8);// Êó±êÊµ¼Êµã»÷Î»ÖÃÓë»ñµÃ×ø±êÓĞÆ«²î
+			Pointx = Location(e.getX() + 8);// é¼ æ ‡å®é™…ç‚¹å‡»ä½ç½®ä¸è·å¾—åæ ‡æœ‰åå·®
 			Pointy = Location(e.getY() + 31);
 			repaint();
 		}
 	}
 
 	public void paint(Graphics g) {
-		background.draw(g); // »­³öÆåÅÌ
-		// Èç¹û¸ÃµãÖ®Ç°Ã»±»»­¹ı£¬¼´blacklistºÍbluelist¶¼²»º¬´Ëµã
+		background.draw(g); // ç”»å‡ºæ£‹ç›˜
+		// å¦‚æœè¯¥ç‚¹ä¹‹å‰æ²¡è¢«ç”»è¿‡ï¼Œå³blacklistå’Œbluelistéƒ½ä¸å«æ­¤ç‚¹
 		if (!listblue.contains(point(Pointx, Pointy)) && !listblack.contains(point(Pointx, Pointy))) {
 			if (count % 2 == 0) {
 				g.setColor(Color.black);
@@ -50,29 +49,31 @@ public class Main extends JFrame {
 				g.fillOval(Pointx - 20, Pointy - 20, 40, 40);
 				listblue.add(point(Pointx, Pointy));
 			}
+			count++;
+
 		}
 		gameOver();
 	}
 
-	// ¶¨Î»ÓëËùµã»÷ µã×î½üµÄÂä×ÓÎ»ÖÃ
+	// å®šä½ä¸æ‰€ç‚¹å‡» ç‚¹æœ€è¿‘çš„è½å­ä½ç½®
 	public int Location(int x) {
 		int lx;
 		lx = (x * 2 + 50) / 100;
 		return lx * 50;
 	}
 
-	// ¸øÆåÅÌÉÏÃ¿¸öµãÒ»¸ö±êºÅ£¬·½±ãÅĞ¶ÏÊ¤Àû
+	// ç»™æ£‹ç›˜ä¸Šæ¯ä¸ªç‚¹ä¸€ä¸ªæ ‡å·ï¼Œæ–¹ä¾¿åˆ¤æ–­èƒœåˆ©
 	public int point(int x, int y) {
 		return x / 50 + (y / 50 - 1) * constant.h;
 	}
 
 	public void gameOver() {
 		if (ruler.blackWin(listblack)) {
-			JOptionPane.showMessageDialog(this, "ºÚÆåÊ¤£¡", "ÓÎÏ·½áÊø", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, "é»‘æ£‹èƒœï¼", "æ¸¸æˆç»“æŸ", JOptionPane.INFORMATION_MESSAGE);
 			System.exit(0);
 		}
 		if (ruler.blueWin(listblue)) {
-			JOptionPane.showMessageDialog(this, "À¶ÆåÊ¤£¡", "ÓÎÏ·½áÊø", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, "è“æ£‹èƒœï¼", "æ¸¸æˆç»“æŸ", JOptionPane.INFORMATION_MESSAGE);
 			System.exit(0);
 		}
 	}
